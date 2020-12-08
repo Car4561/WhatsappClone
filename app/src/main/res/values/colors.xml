@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#065E52</color>
+    <color name="colorPrimaryDark">#054E43</color>
+    <color name="colorSecondary">#2bb741</color>
+    <color name="colorAccent">#96BCB7</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,6 +11,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorWhatsapp">#3ec250</color>
+    <color name="gray">#BDBDBD</color>
+    <color name="lightGray">#E6E6E6</color>
+    <color name="colorBlackLight">#202020</color>
+    <color name="colorOrange">#CF5A0C</color>
+    <color name="colorPurple">#62138C</color>
+    <color name="transparent">#00000000</color>
 
 </resources>
