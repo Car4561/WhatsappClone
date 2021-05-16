@@ -1,5 +1,6 @@
 package com.carlos.whatsappclone.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.viewpager.widget.ViewPager;
@@ -18,8 +19,24 @@ import com.carlos.whatsappclone.fragments.PhotoFragment;
 import com.carlos.whatsappclone.fragments.StatusFragment;
 import com.carlos.whatsappclone.models.User;
 import com.carlos.whatsappclone.provides.AuthProvider;
+import com.carlos.whatsappclone.provides.UsersProvider;
+import com.carlos.whatsappclone.utils.AppBackgroundHelper;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.mancj.materialsearchbar.MaterialSearchBar;
+
+import java.util.MissingFormatArgumentException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Scheduler;
+import io.reactivex.functions.Consumer;
 
 public class HomeActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener {
 
@@ -35,6 +52,7 @@ public class HomeActivity extends AppCompatActivity implements MaterialSearchBar
     private PhotoFragment photoFragment;
 
     private AuthProvider authProvider;
+    private UsersProvider usersProvider;
 
     private User user;
 
@@ -44,20 +62,27 @@ public class HomeActivity extends AppCompatActivity implements MaterialSearchBar
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
 
         searchBar = binding.searchBar;
         tabLayout = binding.tabLayout;
         viewPager = binding.viewPager;
 
-        viewPager.setOffscreenPageLimit(3);
+        authProvider = new AuthProvider();
+        usersProvider = new UsersProvider();
 
+        if(getIntent().getSerializableExtra("user") != null) {
+           user = (User) getIntent().getSerializableExtra("user");
+        }
+
+        viewPager.setOffscreenPageLimit(3);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        chatsFragment = new ChatsFragment();
-        contactsFragment = new ContactsFragment();
-        statusFragment = new StatusFragment();
-        photoFragment = new PhotoFragment();
+
+        chatsFragment = new ChatsFragment(user);
+        contactsFragment = new ContactsFragment(user);
+        statusFragment = new StatusFragment(user);
+        photoFragment = new PhotoFragment(user);
+
         adapter.addFragments(photoFragment,"");
         adapter.addFragments(chatsFragment,"CHATS");
         adapter.addFragments(statusFragment,"ESTADOS");
@@ -69,7 +94,6 @@ public class HomeActivity extends AppCompatActivity implements MaterialSearchBar
 
         setUpTabIcon();
 
-        authProvider = new AuthProvider();
 
         searchBar.setOnSearchActionListener(this);
         searchBar.inflateMenu(R.menu.main_menu);
@@ -85,8 +109,20 @@ public class HomeActivity extends AppCompatActivity implements MaterialSearchBar
 
             }
         });
+        setContentView(binding.getRoot());
 
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        AppBackgroundHelper.online(HomeActivity.this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        AppBackgroundHelper.online(HomeActivity.this);
     }
 
     private void goToProfile() {

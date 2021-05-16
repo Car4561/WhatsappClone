@@ -83,8 +83,9 @@ public class BottomSheetInfo extends BottomSheetDialogFragment {
 
     private void updateInfo() {
         String info = txtInfo.getText().toString().trim();
+        user.setInfo(info);
         if (!info.equals("")) {
-            usersProvider.updateInfo(user.getId(),info).addOnSuccessListener(new OnSuccessListener<Void>() {
+            usersProvider.updateUser(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Log.d("TAG1",info);

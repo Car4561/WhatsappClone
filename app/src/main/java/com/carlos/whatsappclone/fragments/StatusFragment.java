@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.carlos.whatsappclone.R;
+import com.carlos.whatsappclone.models.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +27,7 @@ public class StatusFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public StatusFragment() {
+    public StatusFragment(User user) {
         // Required empty public constructor
     }
 
@@ -38,15 +39,6 @@ public class StatusFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment StatusFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static StatusFragment newInstance(String param1, String param2) {
-        StatusFragment fragment = new StatusFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

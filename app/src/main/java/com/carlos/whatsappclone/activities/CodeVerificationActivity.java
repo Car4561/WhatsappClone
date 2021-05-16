@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carlos.whatsappclone.databinding.ActivityCodeVerificationBinding;
-import com.carlos.whatsappclone.databinding.ActivityMainBinding;
 import com.carlos.whatsappclone.models.User;
 import com.carlos.whatsappclone.provides.AuthProvider;
 import com.carlos.whatsappclone.provides.UsersProvider;
@@ -55,43 +54,6 @@ public class CodeVerificationActivity extends AppCompatActivity {
     private UsersProvider usersProvider;
 
     private ProgressDialog progressDialog;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-         binding = ActivityCodeVerificationBinding.inflate(getLayoutInflater());
-         setContentView(binding.getRoot());
-
-         extraPhone = getIntent().getStringExtra("phone");
-         authProvider  = new AuthProvider();
-         authProvider.sendCodeVerification(extraPhone,callbacks);
-
-         usersProvider = new UsersProvider();
-
-         progressDialog = new ProgressDialog(CodeVerificationActivity.this);
-         progressDialog.setTitle("Espere un momento");
-         progressDialog.setMessage("Autenticando..");
-
-         btnCodeVerification = binding.btnCodeVerification;
-         txtCodeVerification = binding.txtCodeVerification;
-         tvSMS = binding.tvSMS;
-         progressBar = binding.progressBar;
-
-         btnCodeVerification.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                String code = txtCodeVerification.getText().toString().trim();
-                if(!code.isEmpty()){
-
-                    signIn(code);
-
-                }else {
-                    Toast.makeText(CodeVerificationActivity.this, "Ingresa el código", Toast.LENGTH_SHORT).show();
-                }
-             }
-         });
-         binding.btnCodeVerification.setEnabled(false);
-        //  txtCodeVerification.setText("123456");
-    }
 
     PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
@@ -128,6 +90,46 @@ public class CodeVerificationActivity extends AppCompatActivity {
         }
 
     };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+         binding = ActivityCodeVerificationBinding.inflate(getLayoutInflater());
+         setContentView(binding.getRoot());
+
+         btnCodeVerification = binding.btnCodeVerification;
+         txtCodeVerification = binding.txtCodeVerification;
+         tvSMS = binding.tvSMS;
+         progressBar = binding.progressBar;
+
+         extraPhone = getIntent().getStringExtra("phone");
+         authProvider  = new AuthProvider();
+         authProvider.sendCodeVerification(extraPhone,callbacks);
+
+         usersProvider = new UsersProvider();
+
+         progressDialog = new ProgressDialog(CodeVerificationActivity.this);
+         progressDialog.setTitle("Espere un momento");
+         progressDialog.setMessage("Autenticando..");
+
+         btnCodeVerification.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                String code = txtCodeVerification.getText().toString().trim();
+                if(!code.isEmpty()){
+
+                    signIn(code);
+
+                }else {
+                    Toast.makeText(CodeVerificationActivity.this, "Ingresa el código", Toast.LENGTH_SHORT).show();
+                }
+             }
+         });
+         binding.btnCodeVerification.setEnabled(false);
+        //  txtCodeVerification.setText("123456");
+    }
+
+
 
     private void signIn(String code) {
         progressDialog.show();

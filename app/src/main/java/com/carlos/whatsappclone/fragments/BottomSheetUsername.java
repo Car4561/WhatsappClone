@@ -94,14 +94,13 @@ public class BottomSheetUsername extends BottomSheetDialogFragment {
 
     private void updateUserName() {
         String username = txtUsername.getText().toString().trim();
+        user.setUsername(username);
         if (!username.equals("")) {
-            usersProvider.updateUsername(user.getId(),username).addOnSuccessListener(new OnSuccessListener<Void>() {
+            usersProvider.updateUser(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-
                     Toast.makeText(getContext(),"El nombre de usuario se ha actualizado correctamente",Toast.LENGTH_SHORT).show();
                     dismiss();
-
                 }
             });
         }else{

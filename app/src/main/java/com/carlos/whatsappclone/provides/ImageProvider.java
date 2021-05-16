@@ -29,7 +29,6 @@ public class ImageProvider {
         storageReference = storageReference.child(new Date() + ".jpg");
         UploadTask task = storageReference.putBytes(imageByte);
         Log.d("TAG1", Thread.currentThread().getName());
-
         return  task;
     }
 

@@ -14,6 +14,7 @@ import com.carlos.whatsappclone.R;
 import com.carlos.whatsappclone.adapters.ContactsAdapter;
 import com.carlos.whatsappclone.databinding.FragmentContactsBinding;
 import com.carlos.whatsappclone.models.User;
+import com.carlos.whatsappclone.provides.AuthProvider;
 import com.carlos.whatsappclone.provides.UsersProvider;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
@@ -31,9 +32,11 @@ public class ContactsFragment extends Fragment {
     private ContactsAdapter contactsAdapter;
 
     private UsersProvider usersProvider;
+    private AuthProvider authProvider;
 
-    public ContactsFragment() {
-
+    private  User user;
+    public ContactsFragment(User user) {
+        this.user = user;
     }
 
 
@@ -58,7 +61,9 @@ public class ContactsFragment extends Fragment {
         FirestoreRecyclerOptions<User> options = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(query,User.class)
                 .build();
-        contactsAdapter = new ContactsAdapter(options,getContext());
+        authProvider = new AuthProvider();
+
+        contactsAdapter = new ContactsAdapter(options,getContext(),user);
         rvContacts.setAdapter(contactsAdapter);
         contactsAdapter.startListening();
     }

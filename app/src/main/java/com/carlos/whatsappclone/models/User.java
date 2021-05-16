@@ -9,17 +9,23 @@ public class User implements Serializable {
     private String phone;
     private String image;
     private String info;
+    private int status = 1;
+    private Long lastConnect;
+    private boolean online;
 
     public User(){
 
     }
 
-    public User(String id, String username, String phone, String image, String info) {
+    public User(String id, String username, String phone, String image, String info, int status, Long lastConnect, boolean online) {
         this.id = id;
         this.username = username;
         this.phone = phone;
         this.image = image;
         this.info = info;
+        this.status = status;
+        this.lastConnect = lastConnect;
+        this.online = online;
     }
 
     public String getId() {
@@ -60,5 +66,29 @@ public class User implements Serializable {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Long getLastConnect() {
+        return lastConnect;
+    }
+
+    public void setLastConnect(Long lastConnect) {
+        this.lastConnect = lastConnect;
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 }

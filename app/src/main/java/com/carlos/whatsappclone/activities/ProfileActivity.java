@@ -29,6 +29,7 @@ import com.carlos.whatsappclone.models.User;
 import com.carlos.whatsappclone.provides.AuthProvider;
 import com.carlos.whatsappclone.provides.ImageProvider;
 import com.carlos.whatsappclone.provides.UsersProvider;
+import com.carlos.whatsappclone.utils.AppBackgroundHelper;
 import com.carlos.whatsappclone.utils.MyToolbar;
 import com.fxn.pix.Options;
 import com.fxn.pix.Pix;
@@ -53,7 +54,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileActivity extends AppCompatActivity {
 
     private ActivityProfileBinding binding;
-
     private FloatingActionButton fabBtnSelectImage;
 
     private BottomSheetSelectImage bottomSheetSelectImage;
@@ -75,7 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private Options options;
     private ArrayList<String> returnValue = new ArrayList<>();
-    private  File imgFile;
+    private File imgFile;
 
     private ListenerRegistration listenerRegistration;
 
@@ -97,8 +97,6 @@ public class ProfileActivity extends AppCompatActivity {
         linearLayoutInfo = binding.linearLayoutInfo;
 
         MyToolbar.show(this,"Perfil",true);
-
-
 
         options = Options.init()
                 .setRequestCode(100)                                           //Request code for activity results
@@ -136,6 +134,19 @@ public class ProfileActivity extends AppCompatActivity {
         getUserInfo();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        AppBackgroundHelper.online(ProfileActivity.this);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        AppBackgroundHelper.online(ProfileActivity.this);
+
+    }
 
     @Override
     protected void onDestroy() {
@@ -250,7 +261,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 String url = uri.toString();
                                 Log.d("TAG1", url);
                                 user.setImage(url);
-                                usersProvider.updateImage(user.getId(),uri.toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                usersProvider.updateUser(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Toast.makeText(ProfileActivity.this, "La imagén se actualizó correctamente", Toast.LENGTH_SHORT).show();

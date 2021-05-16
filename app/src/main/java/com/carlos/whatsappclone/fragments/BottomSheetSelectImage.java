@@ -35,7 +35,7 @@ import com.google.api.Distribution;
 import java.io.File;
 import java.nio.file.attribute.UserPrincipal;
 
-public class    BottomSheetSelectImage  extends BottomSheetDialogFragment {
+public class BottomSheetSelectImage  extends BottomSheetDialogFragment {
 
     private LinearLayout linearLayoutDeleteImage;
     private LinearLayout linearLayoutSelectImage;
@@ -92,11 +92,13 @@ public class    BottomSheetSelectImage  extends BottomSheetDialogFragment {
 
     private void deleteImage() {
         if (user.getImage() != null && !user.getImage().equals("")){
-            usersProvider.updateImage(user.getId(),null).addOnCompleteListener(new OnCompleteListener<Void>() {
+            String deleteImage = user.getImage();
+            user.setImage(null);
+            usersProvider.updateUser(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task2) {
                     if (task2.isSuccessful()){
-                        imageProvider.delete(user.getImage()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        imageProvider.delete(deleteImage).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {

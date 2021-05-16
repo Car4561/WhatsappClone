@@ -137,6 +137,7 @@ public class CompleteInfoActivity extends AppCompatActivity {
         progressDialog.dismiss();
         Toast.makeText(CompleteInfoActivity.this, "La información se actualizo correctamente", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(CompleteInfoActivity.this,HomeActivity.class);
+        intent.putExtra("user",user);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
